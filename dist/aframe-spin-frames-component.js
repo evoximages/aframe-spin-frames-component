@@ -71,6 +71,7 @@
 /***/ (function(module, exports) {
 
 AFRAME.registerComponent('spin-frames', {
+  multiple: true,
   schema: {
     // configurable options
     folder: { type: 'string' },
@@ -83,191 +84,199 @@ AFRAME.registerComponent('spin-frames', {
     enabled: { default: true },
     initTick: { type: 'boolean', default: false },
   },
-
   init: function() {
-    this.textures = [];
-    this.IMAGECOUNT = 36;
-    this.FRAMES = 88;
-    this.COUNTER = 2112; // starting image * FRAMES
+    this.textures = []
+    this.IMAGECOUNT = 36
+    this.FRAMES = 88
+    this.COUNTER = 2112 // starting image * FRAMES
 
-    this.startX = 0;
-    this.lookVector = new THREE.Vector2();
-    this.mouseDown = false;
-    this.touchDown = false;
-    this.bindMethods();
+    this.startX = 0
+    this.lookVector = new THREE.Vector2()
+    this.mouseDown = false
+    this.touchDown = false
+    this.bindMethods()
   },
 
   update: function() {
-    this.loadImages();
-    this.updateMeshTexture(this.data.frameIndex);
+    this.loadImages()
+    this.updateMeshTexture(this.data.frameIndex)
   },
 
   play: function() {
-    this.addEventListeners();
+    this.addEventListeners()
   },
 
   pause: function() {
-    this.removeEventListeners();
-    this.lookVector.set(0, 0);
+    this.removeEventListeners()
+    this.lookVector.set(0, 0)
   },
 
   remove: function() {
-    this.pause();
+    this.pause()
   },
 
   bindMethods: function() {
-    this.onMouseDown = this.onMouseDown.bind(this);
-    this.onMouseMove = this.onMouseMove.bind(this);
-    this.onMouseUp = this.onMouseUp.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this)
+    this.onMouseMove = this.onMouseMove.bind(this)
+    this.onMouseUp = this.onMouseUp.bind(this)
 
-    this.onTouchStart = this.onTouchStart.bind(this);
-    this.onTouchMove = this.onTouchMove.bind(this);
-    this.onTouchEnd = this.onTouchEnd.bind(this);
+    this.onTouchStart = this.onTouchStart.bind(this)
+    this.onTouchMove = this.onTouchMove.bind(this)
+    this.onTouchEnd = this.onTouchEnd.bind(this)
+
+    this.onExitVr = this.onExitVr.bind(this)
   },
 
   addEventListeners: function() {
-    const canvasEl = this.el.sceneEl.canvas;
-
+    const canvasEl = this.el.sceneEl.canvas
+    const aScene = document.querySelector('a-scene')
     // Mouse events
-    canvasEl.addEventListener('mousedown', this.onMouseDown, false);
-    canvasEl.addEventListener('mousemove', this.onMouseMove, false);
-    canvasEl.addEventListener('mouseup', this.onMouseUp, false);
+    canvasEl.addEventListener('mousedown', this.onMouseDown, false)
+    canvasEl.addEventListener('mousemove', this.onMouseMove, false)
+    canvasEl.addEventListener('mouseup', this.onMouseUp, false)
 
     // Touch events
-    canvasEl.addEventListener('touchstart', this.onTouchStart, false);
-    canvasEl.addEventListener('touchmove', this.onTouchMove, false);
-    canvasEl.addEventListener('touchend', this.onTouchEnd, false);
+    canvasEl.addEventListener('touchstart', this.onTouchStart, false)
+    canvasEl.addEventListener('touchmove', this.onTouchMove, false)
+    canvasEl.addEventListener('touchend', this.onTouchEnd, false)
+
+    canvasEl.addEventListener('exit-vr', this.onExitVr, false)
   },
 
   removeEventListeners: function() {
-    const canvasEl = this.el.sceneEl && this.el.sceneEl.canvas;
+    const canvasEl = this.el.sceneEl && this.el.sceneEl.canvas
     if (canvasEl) {
-      canvasEl.removeEventListener('mousedown', this.onMouseDown);
-      canvasEl.removeEventListener('mousemove', this.onMouseMove);
-      canvasEl.removeEventListener('mouseup', this.onMouseUp);
+      canvasEl.removeEventListener('mousedown', this.onMouseDown)
+      canvasEl.removeEventListener('mousemove', this.onMouseMove)
+      canvasEl.removeEventListener('mouseup', this.onMouseUp)
 
-      canvasEl.removeEventListener('touchstart', this.onTouchStart);
-      canvasEl.removeEventListener('touchmove', this.onTouchMove);
-      canvasEl.removeEventListener('touchend', this.onTouchEnd);
+      canvasEl.removeEventListener('touchstart', this.onTouchStart)
+      canvasEl.removeEventListener('touchmove', this.onTouchMove)
+      canvasEl.removeEventListener('touchend', this.onTouchEnd)
     }
   },
 
   tick: function(time, delta) {
     if (this.data.initTick) {
-      this.updateImageByFrame(time, delta);
+      this.updateImageByFrame(time, delta)
     }
   },
 
   loadImages: function() {
-    this.textures = [];
-    const loader = new THREE.TextureLoader();
+    this.textures = []
+    const loader = new THREE.TextureLoader()
     for (let i = 0; i < this.IMAGECOUNT; i++) {
-      this.textures.push(loader.load(`${this.data.folder + i}.png`));
+      this.textures.push(loader.load(`${this.data.folder + i}.png`))
       //   this.textures.push(loader.load(this.data.folder[i]))
     }
   },
 
   updateMeshTexture: function(index) {
-    const mesh = this.el.getObject3D('mesh');
-    if (!mesh || !mesh.material) return;
-    mesh.material.map = this.textures[index];
+    const mesh = this.el.getObject3D('mesh')
+    if (!mesh || !mesh.material) return
+    mesh.material.map = this.textures[index]
   },
 
   updateImageByFrame: function(time, delta) {
     if (!this.data.clickToSpin) {
       // Calculate rotation if dragging
-      this.COUNTER += Math.round(time);
+      this.COUNTER += Math.round(time)
       // Avoid negative modulus
       this.data.frameIndex =
         ((Math.round(this.COUNTER * (1 / this.FRAMES)) % this.IMAGECOUNT) +
           this.IMAGECOUNT) %
-        this.IMAGECOUNT;
+        this.IMAGECOUNT
     } else {
       // Calculate rotation for auto spin
-      this.COUNTER += Math.round(delta);
+      this.COUNTER += Math.round(delta)
       this.data.frameIndex =
-        Math.round(this.COUNTER * (1 / this.FRAMES)) % this.IMAGECOUNT;
+        Math.round(this.COUNTER * (1 / this.FRAMES)) % this.IMAGECOUNT
     }
-    this.updateMeshTexture(this.data.frameIndex);
+    this.updateMeshTexture(this.data.frameIndex)
   },
 
   isRotationActive: function() {
-    return this.data.enabled && (this.mouseDown || this.touchDown);
+    return this.data.enabled && (this.mouseDown || this.touchDown)
   },
 
   rotateObject: function(clientX) {
-    if (clientX === this.startX) return;
+    if (clientX === this.startX) return
 
-    const currentX = clientX;
-    let direction = 1;
+    const currentX = clientX
+    let direction = 1
 
     if (currentX > this.startX) {
-      direction = -1;
+      direction = -1
     }
 
     const amountMoved =
-      Math.abs(currentX - this.startX) * direction * this.data.sensitivity;
-    this.updateImageByFrame(amountMoved);
-    this.startX = currentX;
+      Math.abs(currentX - this.startX) * direction * this.data.sensitivity
+    this.updateImageByFrame(amountMoved)
+    this.startX = currentX
   },
 
   onMouseMove: function(event) {
-    if (!this.data.enabled || !this.mouseDown || this.data.clickToSpin) return;
+    if (!this.data.enabled || !this.mouseDown || this.data.clickToSpin) return
 
-    const previousMouseEvent = this.previousMouseEvent;
+    const previousMouseEvent = this.previousMouseEvent
 
-    let movementX;
-    movementX = event.movementX || event.mozMovementX || 0;
+    let movementX
+    movementX = event.movementX || event.mozMovementX || 0
 
     if (movementX === undefined) {
-      movementX = event.screenX - previousMouseEvent.screenX;
+      movementX = event.screenX - previousMouseEvent.screenX
     }
-    this.previousMouseEvent = event;
+    this.previousMouseEvent = event
 
     if (this.isRotationActive()) {
-      this.lookVector.x += movementX;
-      this.rotateObject(this.lookVector.x);
+      this.lookVector.x += movementX
+      this.rotateObject(this.lookVector.x)
     }
   },
 
   onMouseDown: function(event) {
-    this.mouseDown = true;
-    this.previousMouseEvent = event;
+    this.mouseDown = true
+    this.previousMouseEvent = event
   },
 
   onMouseUp: function() {
-    this.mouseDown = false;
-    if (!this.data.clickToSpin) return;
+    this.mouseDown = false
+    if (!this.data.clickToSpin) return
     this.data.initTick
       ? (this.data.initTick = false)
-      : (this.data.initTick = true);
+      : (this.data.initTick = true)
   },
 
   // TOUCH CONTROLS
   onTouchMove: function(event) {
-    if (!this.data.enabled || !this.touchDown) return;
+    if (!this.data.enabled || !this.touchDown) return
 
-    const previousTouchEvent = this.previousTouchEvent;
-    const touch = event.touches[0];
-    const movementX = touch.screenX - previousTouchEvent.touches[0].screenX;
+    const previousTouchEvent = this.previousTouchEvent
+    const touch = event.touches[0]
+    const movementX = touch.screenX - previousTouchEvent.touches[0].screenX
 
-    this.previousTouchEvent = event;
+    this.previousTouchEvent = event
 
     if (this.isRotationActive()) {
-      this.lookVector.x += movementX;
-      this.rotateObject(this.lookVector.x);
+      this.lookVector.x += movementX
+      this.rotateObject(this.lookVector.x)
     }
   },
 
   onTouchStart: function(event) {
-    this.touchDown = true;
-    this.previousTouchEvent = event;
+    this.touchDown = true
+    this.previousTouchEvent = event
   },
 
   onTouchEnd: function() {
-    this.touchDown = false;
+    this.touchDown = false
   },
-});
+
+  onExitVr: function() {
+    console.log(this)
+    location.reload(true)
+  },
+})
 
 
 /***/ })

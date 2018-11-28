@@ -8,12 +8,15 @@
   </meta>
   <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
   <script src="../../dist/aframe-spin-frames-component.min.js"></script>
+  <!-- <script src="../../index.js"></script> -->
 </head>
 
 <body>
-  <a-scene id="a-scene" rotation="0 180 0" vr-mode-ui="enabled: false">
-    <a-image class="clickable" scale="10 10 10" position="0 1.5 -4" spin-frames="folder:./AIL12774_ext/; clickToSpin:false"></a-image>
-    <a-camera fov="80" look-controls="enabled:false" wasd-controls="enabled:false">
+  <a-scene id="a-scene" rotation="0 180 0" vr-mode-ui="enabled: true">
+    <a-image class="clickable" scale="10 10 10" position="0 1.5 -4" spin-frames="folder:./AIL12774_ext_left/; clickToSpin:true; stereo:left"></a-image>
+    
+    <a-image class="clickable" scale="10 10 10" position="0 1.5 -4" spin-frames="folder:./AIL12774_ext_right/; clickToSpin:true;stereo:right"></a-image>
+    <a-camera fov="80" look-controls="enabled:true" wasd-controls="enabled:false">
     </a-camera>
     <a-sky color="#fff"></a-sky>
   </a-scene>
