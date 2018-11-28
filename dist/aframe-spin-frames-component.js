@@ -78,6 +78,7 @@ AFRAME.registerComponent('spin-frames', {
     sensitivity: { default: 3.2 },
     frameIndex: { type: 'number', default: 24 },
     clickToSpin: { type: 'boolean', default: false },
+    stereo: { type: 'string', default: 'left' },
 
     // default flags
     loading: { default: true },
@@ -100,6 +101,7 @@ AFRAME.registerComponent('spin-frames', {
   update: function() {
     this.loadImages()
     this.updateMeshTexture(this.data.frameIndex)
+    this.setStereoLayer()
   },
 
   play: function() {
@@ -124,7 +126,9 @@ AFRAME.registerComponent('spin-frames', {
     this.onTouchMove = this.onTouchMove.bind(this)
     this.onTouchEnd = this.onTouchEnd.bind(this)
 
+    this.setStereoLayer = this.setStereoLayer.bind(this)
     this.onExitVr = this.onExitVr.bind(this)
+    this.onEnterVr = this.onEnterVr.bind(this)
   },
 
   addEventListeners: function() {
@@ -140,7 +144,8 @@ AFRAME.registerComponent('spin-frames', {
     canvasEl.addEventListener('touchmove', this.onTouchMove, false)
     canvasEl.addEventListener('touchend', this.onTouchEnd, false)
 
-    canvasEl.addEventListener('exit-vr', this.onExitVr, false)
+    aScene.addEventListener('enter-vr', this.onEnterVr, false)
+    aScene.addEventListener('exit-vr', this.onExitVr, false)
   },
 
   removeEventListeners: function() {
@@ -272,9 +277,41 @@ AFRAME.registerComponent('spin-frames', {
     this.touchDown = false
   },
 
+  onEnterVr: function() {
+    this.setStereoLayer('enter-vr')
+  },
+
   onExitVr: function() {
-    console.log(this)
-    location.reload(true)
+    window.location.reload(true)
+  },
+
+  setStereoLayer: function(event) {
+    const obj3d = this.el.object3D.children[0]
+
+    if (this.data.stereo === 'left') {
+      obj3d.layers.set(0)
+    }
+
+    if (this.data.stereo === 'right') {
+      obj3d.layers.set(2)
+      obj3d.visible = false
+    }
+
+    if (event === 'enter-vr') {
+      if (this.data.stereo === 'left') {
+        obj3d.layers.set(1)
+      }
+      if (this.data.stereo === 'right') {
+        obj3d.visible = true
+        obj3d.layers.set(2)
+      }
+    }
+
+    if (event === 'exit-vr') {
+      if (this.data.stereo === 'right') {
+        obj3d.visible = false
+      }
+    }
   },
 })
 
