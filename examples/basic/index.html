@@ -13,29 +13,27 @@
 
 <body>
   <a-scene id="a-scene" rotation="0 180 0" vr-mode-ui="enabled: true">
-      <a-entity
+      <a-image
       class="clickable"
       scale="10 10 10"
-      primitive="a-image"
       position="0 1.5 -4"
       material="shader:flat;"
       spin-frames="folder:./AIL12774_ext_left/; clickToSpin:true; stereo:left;"
-    ></a-entity>
+    ></a-image>
 
-    <a-entity
+    <a-image
       class="clickable"
       scale="10 10 10"
-      primitive="a-image"
       position="0 1.5 -4"
       material="shader:flat;"
       spin-frames="folder:./AIL12774_ext_right/; clickToSpin:true;stereo:right;"
-    ></a-entity>
+    ></a-image>
     <!-- <a-image class="clickable" scale="10 10 10" position="0 1.5 -4" spin-frames="folder:./AIL12774_ext_left/; clickToSpin:true; stereo:left"></a-image>
     
     <a-image class="clickable" scale="10 10 10" position="0 1.5 -4" spin-frames="folder:./AIL12774_ext_right/; clickToSpin:true;stereo:right"></a-image> -->
     <a-camera fov="80" look-controls="enabled:true" wasd-controls="enabled:false">
     </a-camera>
-    <!-- <a-sky color="#fff"></a-sky> -->
+    <a-sky color="#fff"></a-sky>
   </a-scene>
 
   <!-- GitHub Corner. -->
