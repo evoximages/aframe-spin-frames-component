@@ -96,15 +96,6 @@ AFRAME.registerComponent('spin-frames', {
     }
   },
 
-  // loadImages: function() {
-  //   this.textures = []
-  //   const loader = new THREE.TextureLoader()
-  //   for (let i = 0; i < this.IMAGECOUNT; i++) {
-  //     this.textures.push(loader.load(`${this.data.folder + i}.png`))
-  //     //   this.textures.push(loader.load(this.data.folder[i]))
-  //   }
-  // },
-
   loadImages: function() {
     const loader = new THREE.TextureLoader();
     this.textures = [];
@@ -114,7 +105,9 @@ AFRAME.registerComponent('spin-frames', {
       let padded = zeroString.substring(num.length, 4) + num;
       this.textures.push(
         loader.load(
-          `${this.data.folder}AIL${this.data.vifnum}_left_${padded}.png`
+          `${this.data.folder}AIL${this.data.vifnum}_${
+            this.data.stereo
+          }_${padded}.png`
         )
       );
     }
