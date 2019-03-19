@@ -33,7 +33,7 @@ Install and use by directly including the [browser files](dist):
 </head>
 
 <a-scene id="a-scene" rotation="0 180 0" vr-mode-ui="enabled: false">
-    <a-image class="clickable" scale="10 10 10" position="0 1.5 -4" spin-frames="folder:./AIL12774_ext/; clickToSpin:false"></a-image>
+    <a-image class="clickable" scale="10 10 10" position="0 1.5 -4" spin-frames="folder:./AIL13225_1024/; clickToSpin:false; vifnum:13225;"></a-image>
     <a-camera fov="80" look-controls="enabled:false" wasd-controls="enabled:false">
     </a-camera>
     <a-sky color="#fff"></a-sky>
