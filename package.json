@@ -5,8 +5,8 @@
   "main": "index.js",
   "unpkg": "dist/aframe-spin-frames-component.min.js",
   "scripts": {
-    "build": "webpack index.js dist/aframe-spin-frames-component.js",
-    "dev": "budo index.js:dist/aframe-spin-frames-component.min.js --port 7000 --live --open",
+    "build": "webpack --mode production",
+    "dev": "budo index.js:dist/aframe-spin-frames-component.js --port 7000 --live --open",
     "dist": "npm run build && uglifyjs dist/aframe-spin-frames-component.js > dist/aframe-spin-frames-component.min.js",
     "lint": "semistandard -v | snazzy",
     "prepublish": "npm run dist",
@@ -35,7 +35,11 @@
   },
   "homepage": "https://github.com/evoximages/aframe-spin-frames-component#readme",
   "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.1",
     "aframe": "*",
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^8.0.5",
     "browserify": "^13.0.0",
     "budo": "^8.2.2",
     "chai": "^3.4.1",
@@ -54,12 +58,13 @@
     "randomcolor": "^0.4.4",
     "semistandard": "^8.0.0",
     "shelljs": "^0.7.0",
+    "shx": "^0.1.1",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
-    "shx": "^0.1.1",
     "snazzy": "^4.0.0",
     "uglify-es": "github:mishoo/UglifyJS2#harmony",
-    "webpack": "^2.7.0"
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   },
   "semistandard": {
     "globals": [
