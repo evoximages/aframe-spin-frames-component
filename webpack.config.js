@@ -5,7 +5,7 @@ const webpackOption = {
   entry: './index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'aframe-spin-frames-component.js'
+    filename: 'aframe-spin-frames-component.min.js'
   },
   module: {
     rules: webpack_rules
