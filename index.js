@@ -100,8 +100,11 @@ AFRAME.registerComponent('spin-frames', {
   loadImages: function() {
     const loader = new THREE.TextureLoader();
     loader.setPath(this.data.folder);
+
     this.data.urls.map(path => {
-      this.textures.push(loader.load(path));
+      let texture = loader.load(path);
+      texture.minFilter = THREE.LinearFilter;
+      this.textures.push(texture);
     });
   },
 

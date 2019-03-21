@@ -42,8 +42,8 @@ Install and use by directly including the [browser files](dist):
         scale="10 10 10"
         position="0 1.5 -4"
         material="shader:flat;"
-        spin-frames="folder:./AIL13225_1024;
-        urls:/AIL13225_left_010.png,/AIL13225_left_020.png,/AIL13225_left_030.png,/AIL13225_left_040.png,/AIL13225_left_050.png,/AIL13225_left_060.png,/AIL13225_left_070.png,/AIL13225_left_080.png,/AIL13225_left_090.png,/AIL13225_left_100.png,/AIL13225_left_110.png,/AIL13225_left_120.png,/AIL13225_left_130.png,/AIL13225_left_140.png,/AIL13225_left_150.png,/AIL13225_left_160.png,/AIL13225_left_170.png,/AIL13225_left_180.png,/AIL13225_left_190.png,/AIL13225_left_200.png,/AIL13225_left_210.png,/AIL13225_left_220.png,/AIL13225_left_230.png,/AIL13225_left_240.png,/AIL13225_left_250.png,/AIL13225_left_260.png,/AIL13225_left_270.png,/AIL13225_left_280.png,/AIL13225_left_290.png,/AIL13225_left_300.png,/AIL13225_left_310.png,/AIL13225_left_320.png,/AIL13225_left_330.png,/AIL13225_left_340.png,/AIL13225_left_350.png,/AIL13225_left_360.png;clickToSpin:true;">
+        spin-frames="folder:./12957;
+        urls:/12957_sp0640_001.png,/12957_sp0640_002.png,/12957_sp0640_003.png,/12957_sp0640_004.png,/12957_sp0640_005.png,/12957_sp0640_006.png,/12957_sp0640_007.png,/12957_sp0640_008.png,/12957_sp0640_009.png,/12957_sp0640_010.png,/12957_sp0640_011.png,/12957_sp0640_012.png,/12957_sp0640_013.png,/12957_sp0640_014.png,/12957_sp0640_015.png,/12957_sp0640_016.png,/12957_sp0640_017.png,/12957_sp0640_018.png,/12957_sp0640_019.png,/12957_sp0640_020.png,/12957_sp0640_021.png,/12957_sp0640_022.png,/12957_sp0640_023.png,/12957_sp0640_024.png,/12957_sp0640_025.png,/12957_sp0640_026.png,/12957_sp0640_027.png,/12957_sp0640_028.png,/12957_sp0640_029.png,/12957_sp0640_030.png,/12957_sp0640_031.png,/12957_sp0640_032.png,/12957_sp0640_033.png,/12957_sp0640_034.png,/12957_sp0640_035.png,/12957_sp0640_036.png;clickToSpin:true;vifnum:13225;">
       </a-image>
     <a-entity custom-cubemap="folder:showroom_ext;background:true"></a-entity> 
     <a-camera fov="80" look-controls="enabled:true" wasd-controls="enabled:false">
