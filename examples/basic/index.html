@@ -13,7 +13,8 @@
 </head>
 
 <body>
-  <a-scene id="a-scene" rotation="0 0 0" vr-mode-ui="enabled: true">
+<div id="scene-container">
+  <a-scene id="a-scene" rotation="0 0 0" vr-mode-ui="enabled: true" embedded>
       <a-image
         class="clickable"
         scale="1 1 1"
@@ -30,8 +31,12 @@
     <a-camera fov="80" look-controls="enabled:true" wasd-controls="enabled:false">
     </a-camera>
   </a-scene>
-
+</div>
   <style>
+    #scene-container {
+      height: 480px;
+      width: 640px;
+    }
     .github-corner:hover .octo-arm {
       animation: octocat-wave 560ms ease-in-out
     }
