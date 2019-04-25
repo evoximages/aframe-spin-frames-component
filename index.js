@@ -101,11 +101,21 @@ AFRAME.registerComponent('spin-frames', {
     const loader = new THREE.TextureLoader();
     loader.setPath(this.data.folder);
 
-    this.data.urls.map(path => {
+    if (this.data.urls.length) {
+      return this.data.urls.map(path => {
+        let texture = loader.load(path);
+        texture.minFilter = THREE.LinearFilter;
+        this.textures.push(texture);
+      });
+    }
+
+    for (let i = 10; i <= 360; i += 10) {
+      let num = i.toString();
+      let paddedNum = '000'.substring(num.length, 4) + num;
+      let path = `/AIL${this.data.vifnum}_${this.data.eye}_${paddedNum}.png`;
       let texture = loader.load(path);
-      texture.minFilter = THREE.LinearFilter;
       this.textures.push(texture);
-    });
+    }
   },
 
   updateMeshTexture: function(index) {
