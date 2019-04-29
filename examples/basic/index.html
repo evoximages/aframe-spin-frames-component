@@ -6,32 +6,35 @@
   <title>A-Frame Spin Frames Component - Basic</title>
   <meta name="description" content="Basic example for Spin Frames component.">
   </meta>
-  <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+  <!-- <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script> -->
+  <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
 
   <script src="../../index.js"></script>
   <script src="aframe-custom-cubemap-component.min.js"></script>
 </head>
 
 <body>
-  <div id="scene-container">
-    <a-scene id="a-scene" rotation="0 0 0" vr-mode-ui="enabled: true" embedded>
-      <a-camera fov="80" look-controls="enabled:false" wasd-controls="enabled:false">
+    <a-scene id="a-scene" rotation="0 0 0" vr-mode-ui="enabled: true" >
+      <a-camera fov="80" look-controls="enabled:true" wasd-controls="enabled:false">
       </a-camera>
-      <a-entity custom-cubemap="folder:showroom_ext;background:true"></a-entity> 
       <a-image
         class="clickable"
-        scale="3 3 3"
-        position="0 1.5 -1"
-        material="shader:flat;"
-        spin-frames="folder:AIL13225_1024; clickToSpin:false; vifnum:13225; eye:left">
+        position="0 1.6 -0.4"
+        height="0.56"
+        width="1"
+        spin-frames="folder:AIL12774_1024;clickToSpin:true;vifnum:12774;stereo:both;eye:left">
       </a-image>
+      <a-image
+        class="clickable"
+        position="0 1.6 -0.4"
+        height="0.56"
+        width="1"
+        spin-frames="folder:AIL12774_1024;clickToSpin:true;vifnum:12665;stereo:right;eye:right">
+      </a-image>
+    
+    <a-entity custom-cubemap="folder:showroom_ext;background:true"></a-entity> 
     </a-scene>
-  </div>
   <style>
-    #scene-container {
-      height: 480px;
-      width: 640px;
-    }
     .github-corner:hover .octo-arm {
       animation: octocat-wave 560ms ease-in-out
     }

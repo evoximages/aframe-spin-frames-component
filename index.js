@@ -7,6 +7,7 @@ AFRAME.registerComponent('spin-frames', {
     folder: { type: 'string' },
     sensitivity: { default: 3.2 },
     eye: { type: 'string', default: 'left' },
+    stereo: { type: 'string', default: 'both' },
     frameIndex: { type: 'number', default: 24 },
     clickToSpin: { type: 'boolean', default: false },
 
@@ -26,6 +27,10 @@ AFRAME.registerComponent('spin-frames', {
     this.mouseDown = false;
     this.touchDown = false;
     this.bindMethods();
+    if (!this.isMobile()) {
+      var scene = document.getElementById('a-scene');
+      scene.setAttribute('vr-mode-ui', { enabled: false });
+    }
   },
 
   update: function() {
@@ -95,6 +100,22 @@ AFRAME.registerComponent('spin-frames', {
     if (this.data.initTick) {
       this.updateImageByFrame(time, delta);
     }
+  },
+
+  isMobile: function() {
+    console.log('checking', navigator.userAgent);
+    if (
+      navigator.userAgent.match(/Android/i) ||
+      navigator.userAgent.match(/webOS/i) ||
+      navigator.userAgent.match(/iPhone/i) ||
+      navigator.userAgent.match(/iPad/i) ||
+      navigator.userAgent.match(/iPod/i) ||
+      navigator.userAgent.match(/BlackBerry/i) ||
+      navigator.userAgent.match(/Windows Phone/i)
+    ) {
+      return true;
+    }
+    return false;
   },
 
   loadImages: function() {
@@ -220,7 +241,7 @@ AFRAME.registerComponent('spin-frames', {
   },
 
   onEnterVr: function() {
-    // this.setStereoLayer('enter-vr');
+    this.setStereoLayer('inVrMode');
   },
 
   onExitVr: function() {
@@ -228,31 +249,17 @@ AFRAME.registerComponent('spin-frames', {
   },
 
   setStereoLayer: function(event) {
-    const obj3d = this.el.object3D.children[0];
+    const data = this.data;
+    const obj3D = this.el.object3D.children[0];
 
-    if (this.data.eye === 'left') {
-      obj3d.layers.set(0);
+    if (data.stereo === 'both' || data.stereo === 'left') {
+      obj3D.layers.set(0);
+    } else if (data.stereo === 'right') {
+      obj3D.layers.set(2);
     }
 
-    if (this.data.eye === 'right') {
-      obj3d.layers.set(2);
-      obj3d.visible = false;
-    }
-
-    if (event === 'enter-vr') {
-      if (this.data.eye === 'left') {
-        obj3d.layers.set(1);
-      }
-      if (this.data.eye === 'right') {
-        obj3d.visible = true;
-        obj3d.layers.set(2);
-      }
-    }
-
-    if (event === 'exit-vr') {
-      if (this.data.eye === 'right') {
-        obj3d.visible = false;
-      }
+    if (event === 'inVrMode' && data.stereo === 'both') {
+      obj3D.layers.set(1);
     }
   }
 });
