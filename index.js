@@ -103,7 +103,6 @@ AFRAME.registerComponent('spin-frames', {
   },
 
   isMobile: function() {
-    console.log('checking', navigator.userAgent);
     if (
       navigator.userAgent.match(/Android/i) ||
       navigator.userAgent.match(/webOS/i) ||
