@@ -75,5 +75,8 @@
       "examples/build.js",
       "dist/**"
     ]
+  },
+  "dependencies": {
+    "aframe-sprite-component": "^0.1.1"
   }
 }

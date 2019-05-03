@@ -262,3 +262,29 @@ AFRAME.registerComponent('spin-frames', {
     }
   }
 });
+
+AFRAME.registerComponent('cursor-listener', {
+  multiple: true,
+  schema: {
+    clicked: { type: 'boolean', default: false }
+  },
+  init: function() {
+    this.bindMethods();
+    this.addEventListeners();
+
+    // variables
+    this.clicked = false;
+    this.currentFrame = '';
+  },
+  bindMethods: function() {
+    this.handleClick = this.handleClick.bind(this);
+  },
+  addEventListeners: function() {
+    this.el.addEventListener('click', this.handleClick, false);
+  },
+  handleClick: function(event) {
+    const camera = document.getElementById('camera');
+    console.log(event);
+    console.log(this.data);
+  }
+});

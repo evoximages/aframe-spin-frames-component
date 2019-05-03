@@ -6,29 +6,43 @@
   <title>A-Frame Spin Frames Component - Basic</title>
   <meta name="description" content="Basic example for Spin Frames component.">
   </meta>
-  <!-- <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script> -->
-  <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+  <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+  <!-- <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script> -->
 
   <script src="../../index.js"></script>
   <script src="aframe-custom-cubemap-component.min.js"></script>
+  <script src="https://cdn.rawgit.com/tizzle/aframe-sprite-component/master/dist/aframe-sprite-component.min.js"></script>
+  <script src="https://rawgit.com/mayognaise/aframe-mouse-cursor-component/master/dist/aframe-mouse-cursor-component.min.js"></script>
+
 </head>
 
 <body>
-    <a-scene id="a-scene" rotation="0 0 0" vr-mode-ui="enabled: true" >
-      <a-camera fov="80" look-controls="enabled:true" wasd-controls="enabled:false">
-      </a-camera>
+  <a-scene id="a-scene" rotation="0 0 0" vr-mode-ui="enabled:false" >
+    <a-assets>
+      <img id="arrowLeft" src="frame_prev.png">
+      <img id="arrowRight" src="frame_next.png">
+    </a-assets>
+
+    <a-camera id="camera" position="0 0 0" fov="80" mouse-cursor look-controls="enabled:true" wasd-controls="enabled:false">
+      <a-cursor position="0 0 -1" cursor="fuse:false" material="color:#000;shader:flat;opacity:0.5" geometry="primitive: ring;radiusInner: 0.015; radiusOuter:0.03" raycaster="objects:.clickable"></a-cursor>
+    </a-camera>
+
+      <a-sprite class="clickable" cursor-listener position="-0.2 -.4 -1" resize=".08 .08 .08" src="frame_prev.png"></a-sprite>
+      <a-sprite class="clickable" cursor-listener position="0.2 -.4 -1" resize=".08 .08 .08" src="frame_next.png"></a-sprite>
+
       <a-image
-        position="0 1.6 -0.4"
+        position="0 0 -1.1"
+        scale="2.2 2.2 2.2"
         height="0.56"
         width="1"
         spin-frames="folder:AIL12774_1024;clickToSpin:true;vifnum:12774;stereo:both;eye:left">
       </a-image>
-      <a-image
+      <!-- <a-image
         position="0 1.6 -0.4"
         height="0.56"
         width="1"
         spin-frames="folder:AIL12774_1024;clickToSpin:true;vifnum:12665;stereo:right;eye:right">
-      </a-image>
+      </a-image> -->
     
     <a-entity custom-cubemap="folder:showroom_ext;background:true"></a-entity> 
     </a-scene>
