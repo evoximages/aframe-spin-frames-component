@@ -18,19 +18,13 @@
 
 <body>
   <a-scene id="a-scene" rotation="0 0 0" vr-mode-ui="enabled:false" >
-    <a-assets>
-      <img id="arrowLeft" src="frame_prev.png">
-      <img id="arrowRight" src="frame_next.png">
-    </a-assets>
-
-    <a-camera id="camera" position="0 0 0" fov="80" mouse-cursor look-controls="enabled:true" wasd-controls="enabled:false">
-      <a-cursor position="0 0 -1" cursor="fuse:false" material="color:#000;shader:flat;opacity:0.5" geometry="primitive: ring;radiusInner: 0.015; radiusOuter:0.03" raycaster="objects:.clickable"></a-cursor>
+    
+    <a-camera id="camera" position="0 0 0" fov="70" mouse-cursor look-controls="enabled:true" wasd-controls="enabled:false">
+      <a-cursor position="0 0 -1" cursor="fuse:true" material="color:#000;shader:flat;opacity:0.5" geometry="primitive: ring;radiusInner: 0.015; radiusOuter:0.03" raycaster="objects:.clickable"></a-cursor>
     </a-camera>
-
-      <a-sprite class="clickable" cursor-listener position="-0.2 -.4 -1" resize=".08 .08 .08" src="frame_prev.png"></a-sprite>
-      <a-sprite class="clickable" cursor-listener position="0.2 -.4 -1" resize=".08 .08 .08" src="frame_next.png"></a-sprite>
-
+    
       <a-image
+        class="clickable"
         position="0 0 -1.1"
         scale="2.2 2.2 2.2"
         height="0.56"

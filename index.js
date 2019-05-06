@@ -18,8 +18,7 @@ AFRAME.registerComponent('spin-frames', {
   },
   init: function() {
     this.textures = [];
-    this.IMAGECOUNT = 36;
-    this.FRAMES = 88;
+    this.SPEED = 1 / 88;
     this.COUNTER = 2112; // starting image * FRAMES
 
     this.startX = 0;
@@ -54,8 +53,8 @@ AFRAME.registerComponent('spin-frames', {
 
   bindMethods: function() {
     this.onMouseDown = this.onMouseDown.bind(this);
-    this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
 
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onTouchMove = this.onTouchMove.bind(this);
@@ -70,9 +69,9 @@ AFRAME.registerComponent('spin-frames', {
     const canvasEl = this.el.sceneEl.canvas;
     const aScene = document.querySelector('a-scene');
     // Mouse events
-    canvasEl.addEventListener('mousedown', this.onMouseDown, false);
+    // canvasEl.addEventListener('mousedown', this.onMouseDown, false);
+    // canvasEl.addEventListener('mouseup', this.onMouseUp, false);
     canvasEl.addEventListener('mousemove', this.onMouseMove, false);
-    canvasEl.addEventListener('mouseup', this.onMouseUp, false);
 
     // Touch events
     canvasEl.addEventListener('touchstart', this.onTouchStart, false);
@@ -81,6 +80,8 @@ AFRAME.registerComponent('spin-frames', {
 
     aScene.addEventListener('enter-vr', this.onEnterVr, false);
     aScene.addEventListener('exit-vr', this.onExitVr, false);
+    this.el.addEventListener('mouseenter', this.onMouseDown, false);
+    this.el.addEventListener('mouseleave', this.onMouseDown, false);
   },
 
   removeEventListeners: function() {
@@ -145,21 +146,17 @@ AFRAME.registerComponent('spin-frames', {
   },
 
   updateImageByFrame: function(time, delta) {
+    let frame = Math.round(this.COUNTER * this.SPEED);
     if (!this.data.clickToSpin) {
-      // Calculate rotation if dragging
       this.COUNTER += Math.round(time);
-      // Avoid negative modulus
-      this.data.frameIndex =
-        ((Math.round(this.COUNTER * (1 / this.FRAMES)) % this.IMAGECOUNT) +
-          this.IMAGECOUNT) %
-        this.IMAGECOUNT;
     } else {
-      // Calculate rotation for auto spin
       this.COUNTER += Math.round(delta);
-      this.data.frameIndex =
-        Math.round(this.COUNTER * (1 / this.FRAMES)) % this.IMAGECOUNT;
     }
-    this.updateMeshTexture(this.data.frameIndex);
+    this.updateMeshTexture(this.frameModulo(frame));
+  },
+
+  frameModulo: function(frame) {
+    return ((frame % 36) + 36) % 36;
   },
 
   isRotationActive: function() {
@@ -204,6 +201,10 @@ AFRAME.registerComponent('spin-frames', {
   onMouseDown: function(event) {
     this.mouseDown = true;
     this.previousMouseEvent = event;
+    if (!this.data.clickToSpin) return;
+    this.data.initTick
+      ? (this.data.initTick = false)
+      : (this.data.initTick = true);
   },
 
   onMouseUp: function() {
@@ -260,31 +261,5 @@ AFRAME.registerComponent('spin-frames', {
     if (event === 'inVrMode' && data.stereo === 'both') {
       obj3D.layers.set(1);
     }
-  }
-});
-
-AFRAME.registerComponent('cursor-listener', {
-  multiple: true,
-  schema: {
-    clicked: { type: 'boolean', default: false }
-  },
-  init: function() {
-    this.bindMethods();
-    this.addEventListeners();
-
-    // variables
-    this.clicked = false;
-    this.currentFrame = '';
-  },
-  bindMethods: function() {
-    this.handleClick = this.handleClick.bind(this);
-  },
-  addEventListeners: function() {
-    this.el.addEventListener('click', this.handleClick, false);
-  },
-  handleClick: function(event) {
-    const camera = document.getElementById('camera');
-    console.log(event);
-    console.log(this.data);
   }
 });
