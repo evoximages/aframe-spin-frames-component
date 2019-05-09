@@ -25,8 +25,10 @@ AFRAME.registerComponent('spin-frames', {
     this.lookVector = new THREE.Vector2();
     this.mouseDown = false;
     this.touchDown = false;
+    this._isMobile = this.el.sceneEl.isMobile;
     this.bindMethods();
-    if (!this.isMobile()) {
+
+    if (!this._isMobile) {
       var scene = document.getElementById('a-scene');
       scene.setAttribute('vr-mode-ui', { enabled: false });
     }
@@ -69,8 +71,8 @@ AFRAME.registerComponent('spin-frames', {
     const canvasEl = this.el.sceneEl.canvas;
     const aScene = document.querySelector('a-scene');
     // Mouse events
-    // canvasEl.addEventListener('mousedown', this.onMouseDown, false);
-    // canvasEl.addEventListener('mouseup', this.onMouseUp, false);
+    canvasEl.addEventListener('mousedown', this.onMouseDown, false);
+    canvasEl.addEventListener('mouseup', this.onMouseUp, false);
     canvasEl.addEventListener('mousemove', this.onMouseMove, false);
 
     // Touch events
@@ -80,8 +82,6 @@ AFRAME.registerComponent('spin-frames', {
 
     aScene.addEventListener('enter-vr', this.onEnterVr, false);
     aScene.addEventListener('exit-vr', this.onExitVr, false);
-    this.el.addEventListener('mouseenter', this.onMouseDown, false);
-    this.el.addEventListener('mouseleave', this.onMouseDown, false);
   },
 
   removeEventListeners: function() {
@@ -101,21 +101,6 @@ AFRAME.registerComponent('spin-frames', {
     if (this.data.initTick) {
       this.updateImageByFrame(time, delta);
     }
-  },
-
-  isMobile: function() {
-    if (
-      navigator.userAgent.match(/Android/i) ||
-      navigator.userAgent.match(/webOS/i) ||
-      navigator.userAgent.match(/iPhone/i) ||
-      navigator.userAgent.match(/iPad/i) ||
-      navigator.userAgent.match(/iPod/i) ||
-      navigator.userAgent.match(/BlackBerry/i) ||
-      navigator.userAgent.match(/Windows Phone/i)
-    ) {
-      return true;
-    }
-    return false;
   },
 
   loadImages: function() {
@@ -242,6 +227,9 @@ AFRAME.registerComponent('spin-frames', {
 
   onEnterVr: function() {
     this.setStereoLayer('inVrMode');
+    console.log(this.el.sceneEl);
+    this.el.sceneEl.addEventListener('mouseenter', this.onMouseDown, false);
+    this.el.sceneEl.addEventListener('mouseleave', this.onMouseDown, false);
   },
 
   onExitVr: function() {
